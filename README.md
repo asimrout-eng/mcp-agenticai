@@ -1,4 +1,4 @@
-# 🚀 Firebolt NL2SQL Analytics
+# 🚀 Firebolt Intelligent Query Assistant
 
 A powerful Natural Language to SQL converter for Firebolt databases with real-time query execution and sub-second performance insights.
 
@@ -51,7 +51,8 @@ mcp-nl2sql/
 
 ## 🔧 Configuration
 
-### Environment Variables
+### Environment Variables (Optional)
+You can pre-configure credentials via environment variables, or enter them directly in the UI. 
 Copy `env_example.txt` to `.env` and update with your credentials:
 
 ```env
@@ -68,7 +69,7 @@ FIREBOLT_MCP_CLIENT_SECRET=your_service_account_secret
 
 ## 🎯 How It Works
 
-1. **Connect**: Enter your Firebolt credentials in the UI
+1. **Connect**: Enter your Firebolt credentials in the UI (or configure via environment variables)
 2. **Discover**: App automatically discovers all tables, columns, DDL, and primary indexes
 3. **Ask**: Type your question in natural language
 4. **Convert**: Claude AI converts your question to optimized Firebolt SQL  

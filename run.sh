@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run the Firebolt NL2SQL App
+# Run the Firebolt Intelligent Query Assistant
 
 # Check if API key is provided as argument
 if [ $# -eq 0 ]; then
@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-echo "🚀 Starting Firebolt NL2SQL Analytics App..."
+echo "🚀 Starting Firebolt Intelligent Query Assistant..."
 
 # Activate virtual environment
 source venv/bin/activate

@@ -6,10 +6,18 @@ import time
 from nl2sql_claude import NL2SQLConverter
 from test_mcp_real import execute_query_via_mcp
 
-# Set up Firebolt credentials (API key must be provided via environment variable)
-os.environ['FIREBOLT_MCP_CLIENT_ID'] = 'esIjzj7gw7uHRljSMRAnOOouho50ciy4'
-os.environ['FIREBOLT_MCP_CLIENT_SECRET'] = '1qgsZ9cpVy6qaj4GrDMww8h4aHR7gAaj2fGiippLh3sQX2rz564JgSAErRHFwghS'
-os.environ['FIREBOLT_MCP_ACCOUNT'] = 'se-demo-account'
+# Set up Firebolt credentials (must be provided via environment variables)
+# Please set these environment variables before running:
+# export FIREBOLT_MCP_CLIENT_ID='your_client_id'
+# export FIREBOLT_MCP_CLIENT_SECRET='your_client_secret'
+if not os.getenv('FIREBOLT_MCP_CLIENT_ID') or not os.getenv('FIREBOLT_MCP_CLIENT_SECRET'):
+    print("❌ Error: FIREBOLT_MCP_CLIENT_ID and FIREBOLT_MCP_CLIENT_SECRET must be set as environment variables")
+    print("Please set: export FIREBOLT_MCP_CLIENT_ID='your_client_id'")
+    print("Please set: export FIREBOLT_MCP_CLIENT_SECRET='your_client_secret'")
+    exit(1)
+# Set default account if not already configured
+if 'FIREBOLT_MCP_ACCOUNT' not in os.environ:
+    os.environ['FIREBOLT_MCP_ACCOUNT'] = os.getenv('FIREBOLT_ACCOUNT', 'se-demo-account')
 os.environ['FIREBOLT_MCP_DATABASE'] = 'kush_firex_demo'
 os.environ['FIREBOLT_MCP_ENGINE'] = 'kush_test_engine'
 # API key must be provided via environment variable

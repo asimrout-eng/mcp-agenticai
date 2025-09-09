@@ -17,7 +17,7 @@ from test_mcp_real import execute_query_via_mcp
 
 # Page config
 st.set_page_config(
-    page_title="Firebolt NL2SQL Analytics",
+    page_title="Firebolt Intelligent Query Assistant",
     page_icon="🔥",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -81,11 +81,13 @@ st.markdown("""
     }
     
     .header-title {
-        font-size: 3.2rem;
+        font-size: 2.6rem;
         font-weight: 700;
         margin: 0;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        letter-spacing: -1px;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        white-space: nowrap;
     }
     
     .header-subtitle {
@@ -281,18 +283,29 @@ st.markdown("""
         }
         
         .header-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
+            text-align: center !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .metric-card {
             margin: 0.25rem;
         }
     }
+    
+    /* For very wide screens, ensure proper scaling */
+    @media (min-width: 1400px) {
+        .header-title {
+            font-size: 3.0rem;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
 class FireboltNL2SQLApp:
-    """Clean, modern Firebolt NL2SQL Analytics application"""
+    """Clean, modern Firebolt Intelligent Query Assistant"""
     
     def __init__(self):
         self.init_session_state()
@@ -320,9 +333,11 @@ class FireboltNL2SQLApp:
             st.session_state.show_visualizations = False
         if 'selected_chart_type' not in st.session_state:
             st.session_state.selected_chart_type = None
+        if 'connection_error' not in st.session_state:
+            st.session_state.connection_error = None
     
     def render_header(self):
-        """Render clean header with actual Firebolt logo"""
+        """Render clean header with proper alignment"""
         # Load Firebolt logo
         try:
             logo = Image.open('/Users/kushagrnagpal/mcp-nl2sql/fb-logo.png')
@@ -331,59 +346,60 @@ class FireboltNL2SQLApp:
         
         st.markdown("""
         <div class="header-container">
-            <div class="logo-title-container">
+            <div class="logo-title-container" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 10px;">
         """, unsafe_allow_html=True)
         
         if logo:
-            col1, col2, col3 = st.columns([1, 2, 1])
+            # Create a centered layout with bigger logo and title on one line
+            col1, col2, col3 = st.columns([1, 3, 1])
             with col2:
-                col_a, col_b, col_c = st.columns([1, 1, 2])
-                with col_b:
-                    st.image(logo, width=80)
-                with col_c:
+                logo_col, title_col = st.columns([1, 4])
+                with logo_col:
+                    st.image(logo, width=120)
+                with title_col:
                     st.markdown("""
-                    <div>
-                        <h1 class="header-title">Firebolt NL2SQL</h1>
-                    </div>
+                    <h1 class="header-title" style="margin: 0; line-height: 120px; text-align: left; white-space: nowrap;">Firebolt Intelligent Query Assistant</h1>
                     """, unsafe_allow_html=True)
         else:
             st.markdown("""
-                <h1 class="header-title">🔥 Firebolt NL2SQL</h1>
+                <div style="text-align: center;">
+                    <h1 class="header-title">🔥 Firebolt Intelligent Query Assistant</h1>
+                </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
             </div>
-            <p class="header-subtitle" style="text-align: center;">Transform natural language into blazing-fast SQL insights</p>
+            <p class="header-subtitle" style="text-align: center; margin-top: 0;">Transform natural language into blazing-fast SQL insights</p>
         </div>
         """, unsafe_allow_html=True)
     
     def render_demo_sidebar(self):
-        """Render demo sidebar with prompts"""
+        """Render demo sidebar with session stats"""
         with st.sidebar:
-            st.markdown("## 🎭 Demo Toolkit")
-            
-            demo_prompts = [
-                "Show me AutoCorp's total revenue and cost by campaign",
-                "What's the conversion rate by device type for all campaigns?",
-                "Top 5 premium publishers by AutoCorp conversion revenue",
-                "Show me AutoCorp's hourly revenue trend for their campaigns",
-                "What's the budget distribution across AutoCorp's campaign types?",
-                "Campaign performance by hour of day for AutoCorp",
-                "Average cost per conversion by campaign type and device"
-            ]
-            
-            for i, prompt in enumerate(demo_prompts, 1):
-                if st.button(f"📝 Demo {i}", key=f"demo_prompt_{i}", use_container_width=True):
-                    st.session_state.selected_demo_prompt = prompt
-                    st.rerun()
-                st.caption(prompt)
-                st.divider()
-            
             if st.session_state.is_connected:
                 st.markdown("## 📊 Session Stats")
                 st.metric("Queries Executed", len(st.session_state.query_history))
                 if st.session_state.schema_info:
                     st.metric("Tables", len(st.session_state.schema_info))
+                
+                st.markdown("## 🎮 Gaming Analytics")
+                st.markdown("""
+                **Available Tables:**
+                - Players (Demographics)
+                - Games (Sessions)  
+                - Transactions (Revenue)
+                - Events (Player behavior)
+                - External tables (Real-time data)
+                """)
+            else:
+                st.markdown("## 🚀 Getting Started")
+                st.markdown("""
+                **Connect to explore:**
+                - Gaming player analytics
+                - Real-time event data
+                - Revenue insights
+                - Multi-table joins
+                """)
     
     def render_connection_ui(self):
         """Render connection interface"""
@@ -397,21 +413,113 @@ class FireboltNL2SQLApp:
             </div>
             """, unsafe_allow_html=True)
             
+            # Initialize session state for credentials
+            if 'selected_client_id' not in st.session_state:
+                st.session_state.selected_client_id = ""
+            if 'auto_client_secret' not in st.session_state:
+                st.session_state.auto_client_secret = ""
+            
+            # Manual credential entry only - no hardcoded options
+            client_id_options = [
+                "Enter manually"
+            ]
+            
+            # Manual credential entry only - users must provide their own credentials
+            custom_client_id = st.text_input("🔑 Client ID", value="", placeholder="Enter your Firebolt client ID", key="custom_client_id")
+            custom_client_secret = st.text_input("🔒 Client Secret", value="", type="password", placeholder="Enter your Firebolt client secret", key="custom_client_secret")
+            st.session_state.selected_client_id = custom_client_id
+            st.session_state.auto_client_secret = custom_client_secret
+
             with st.form("connection_form"):
                 col1, col2 = st.columns(2)
                 with col1:
-                    account = st.text_input("🏢 Account", value="se-demo-account")
-                    database = st.text_input("🗄️ Database", value="kush_firex_demo")
-                    engine = st.text_input("⚡ Engine", value="kush_test_engine")
+                    # Account dropdown with options
+                    account_options = [
+                        "kush-demo-account",  # Default
+                        "jauneet-india-demo",
+                        "se-demo-account",
+                        "Custom (Enter manually)"
+                    ]
+                    account_choice = st.selectbox("🏢 Account", account_options, index=0)
+                    
+                    if account_choice == "Custom (Enter manually)":
+                        account = st.text_input("Enter Custom Account", value="", placeholder="Enter your account name")
+                    else:
+                        account = account_choice
+                    
+                    # Database dropdown with options
+                    database_options = [
+                        "devr",  # Default
+                        "intdemo",
+                        "kush_firex_demo",
+                        "Custom (Enter manually)"
+                    ]
+                    database_choice = st.selectbox("🗄️ Database", database_options, index=0)
+                    
+                    if database_choice == "Custom (Enter manually)":
+                        database = st.text_input("Enter Custom Database", value="", placeholder="Enter your database name")
+                    else:
+                        database = database_choice
+                        
                 with col2:
-                    client_id = st.text_input("🔑 Client ID", value="")
-                    client_secret = st.text_input("🔒 Client Secret", value="", type="password")
+                    # Engine dropdown with options
+                    engine_options = [
+                        "kush_engine",  # Default
+                        "jimmydemo",
+                        "kush_test_engine",
+                        "Custom (Enter manually)"
+                    ]
+                    engine_choice = st.selectbox("⚡ Engine", engine_options, index=0)
+                    
+                    if engine_choice == "Custom (Enter manually)":
+                        engine = st.text_input("Enter Custom Engine", value="", placeholder="Enter your engine name")
+                    else:
+                        engine = engine_choice
+                
+                # Get credentials from session state
+                client_id = st.session_state.selected_client_id
+                client_secret = st.session_state.auto_client_secret
                 
                 if st.form_submit_button("🚀 Connect", type="primary", use_container_width=True):
                     if all([account, database, engine, client_id, client_secret]):
                         self.connect_to_firebolt(account, database, engine, client_id, client_secret)
                     else:
                         st.error("❌ Please fill in all fields")
+            
+            # Display persistent connection error if exists
+            if st.session_state.connection_error:
+                error_data = st.session_state.connection_error
+                st.markdown("""
+                <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%); 
+                           padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white; 
+                           box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4); text-align: center;">
+                    <h2 style="margin: 0 0 1rem 0; font-size: 2rem;">🚫 CONNECTION FAILED</h2>
+                    <p style="font-size: 1.2rem; margin: 0;">Unable to connect to Firebolt database</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                error_msg = error_data['error_msg']
+                account = error_data['account']
+                
+                if "account name does not exist" in error_msg.lower() or "not authorized" in error_msg.lower():
+                    st.error(f"❌ **Invalid Account Name**: The account '{account}' does not exist in your organization or you don't have access to it.")
+                    st.error("🔍 **Please verify**: Account name spelling and your organization access")
+                elif "connection" in error_msg.lower() or "failed to create connection" in error_msg.lower():
+                    st.error(f"❌ **Connection Failed**: Unable to establish connection to Firebolt")
+                    st.error("🔍 **Please check**: Credentials, network connection, and service account permissions")
+                elif "client_id" in error_msg.lower() or "client_secret" in error_msg.lower():
+                    st.error(f"❌ **Authentication Failed**: Invalid Client ID or Client Secret")
+                    st.error("🔍 **Please verify**: Your service account credentials are correct")
+                else:
+                    st.error(f"❌ **Connection Failed**: {error_msg}")
+                
+                st.warning("💡 **Common Issues**: Account name typos, expired credentials, insufficient RBAC permissions, or network connectivity")
+                st.info("🔄 **Next Steps**: Double-check your credentials above and try connecting again")
+                
+                # Add button to clear error
+                if st.button("🗑️ Clear Error", type="secondary"):
+                    st.session_state.connection_error = None
+                    st.rerun()
         else:
             st.markdown(f"""
             <div class="connection-card connected">
@@ -450,6 +558,7 @@ class FireboltNL2SQLApp:
                 }
                 st.session_state.is_connected = True
                 st.session_state.schema_info = schema_info
+                st.session_state.connection_error = None  # Clear any previous errors
                 
                 # Initialize NL2SQL converter
                 schema_context = self.format_schema_for_claude()
@@ -459,7 +568,51 @@ class FireboltNL2SQLApp:
                 st.rerun()
                 
             except Exception as e:
-                st.error(f"❌ Connection failed: {str(e)}")
+                # Reset connection state on failure
+                st.session_state.is_connected = False
+                st.session_state.credentials = {}
+                st.session_state.schema_info = {}
+                st.session_state.last_query_result = None
+                st.session_state.last_executed_sql = ""
+                st.session_state.last_execution_time = None
+                st.session_state.engine_time_data = None
+                self.nl2sql_converter = None
+                
+                # Store error in session state for persistent display
+                st.session_state.connection_error = {
+                    'account': account,
+                    'error_msg': str(e),
+                    'timestamp': time.time()
+                }
+                
+                # Display prominent connection failure message
+                st.markdown("""
+                <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%); 
+                           padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white; 
+                           box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4); text-align: center;">
+                    <h2 style="margin: 0 0 1rem 0; font-size: 2rem;">🚫 CONNECTION FAILED</h2>
+                    <p style="font-size: 1.2rem; margin: 0;">Unable to connect to Firebolt database</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                error_msg = str(e)
+                if "account name does not exist" in error_msg.lower() or "not authorized" in error_msg.lower():
+                    st.error(f"❌ **Invalid Account Name**: The account '{account}' does not exist in your organization or you don't have access to it.")
+                    st.error("🔍 **Please verify**: Account name spelling and your organization access")
+                elif "connection" in error_msg.lower() or "failed to create connection" in error_msg.lower():
+                    st.error(f"❌ **Connection Failed**: Unable to establish connection to Firebolt")
+                    st.error("🔍 **Please check**: Credentials, network connection, and service account permissions")
+                elif "client_id" in error_msg.lower() or "client_secret" in error_msg.lower():
+                    st.error(f"❌ **Authentication Failed**: Invalid Client ID or Client Secret")
+                    st.error("🔍 **Please verify**: Your service account credentials are correct")
+                else:
+                    st.error(f"❌ **Connection Failed**: {error_msg}")
+                
+                st.warning("💡 **Common Issues**: Account name typos, expired credentials, insufficient RBAC permissions, or network connectivity")
+                
+                # Add a retry suggestion
+                st.info("🔄 **Next Steps**: Double-check your credentials above and try connecting again")
+                st.rerun()
     
     def disconnect_from_firebolt(self):
         """Disconnect from Firebolt"""
@@ -509,8 +662,8 @@ class FireboltNL2SQLApp:
             return schema_info
             
         except Exception as e:
-            st.error(f"❌ Schema discovery failed: {str(e)}")
-            return {}
+            # Re-raise the exception so connection fails properly
+            raise Exception(f"Schema discovery failed: {str(e)}")
     
     def format_schema_for_claude(self):
         """Format schema information for Claude"""
@@ -559,17 +712,35 @@ class FireboltNL2SQLApp:
         </div>
         """, unsafe_allow_html=True)
         
+        # Demo queries dropdown
+        demo_queries = [
+            "Type your own question...",
+            "Show me the count of players by country (Simple - 1 table - Market analysis for localization)",
+            "Show me total events and average event level by game type from player event data (Intermediate - 2-table join - Game engagement insights)",
+            "Show me player event activity by country using our external event data, including total events and unique players (External table integration - Real-time regional analysis)",
+            "Show me premium players with their average game score and total events, grouped by country (Advanced - 3-table join - Premium player performance)"
+        ]
+        
+        selected_demo = st.selectbox(
+            "🎯 Choose a demo query or type your own:",
+            demo_queries,
+            index=0
+        )
+        
         # Handle demo prompt selection
         default_value = ""
         if hasattr(st.session_state, 'selected_demo_prompt'):
             default_value = st.session_state.selected_demo_prompt
             del st.session_state.selected_demo_prompt
+        elif selected_demo != "Type your own question...":
+            # Extract just the query text before the parentheses
+            default_value = selected_demo.split(" (")[0]
         
         question = st.text_area(
             "Enter your question in natural language:",
             value=default_value,
             height=100,
-            placeholder="Example: Show me AutoCorp's total revenue and cost by campaign"
+            placeholder="Example: Show me the count of players by country"
         )
         
         col1, col2 = st.columns([1, 1])
@@ -676,32 +847,21 @@ class FireboltNL2SQLApp:
                 
                 # Check if engine time data is available
                 if st.session_state.engine_time_data:
-                    # Show expanded KPI card with engine time details
+                    # Show Firebolt engine time details
                     data = st.session_state.engine_time_data
                     st.markdown(f"""
                     <div class="metric-card" style="padding: 2rem 1.5rem;">
-                        <div class="metric-number">{response_time:.0f}ms</div>
-                        <div class="metric-label">Total Response Time</div>
-                        <hr style="margin: 1rem 0; border: 1px solid #e2e8f0;">
-                        <div class="metric-number" style="font-size: 2rem; color: #48bb78;">{data['duration_ms']:.1f}ms</div>
+                        <div class="metric-number" style="font-size: 2.5rem; color: #48bb78;">{data['duration_ms']:.1f}ms</div>
                         <div class="metric-label" style="color: #48bb78;">🔥 Firebolt Engine Time</div>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 0.5rem;">
-                            Database: {data['duration_us']:,}μs<br>
-                            Network: {data['overhead_ms']:.1f}ms
+                        <div style="font-size: 0.9rem; color: #718096; margin-top: 0.5rem;">
+                            Database execution: {data['duration_us']:,}μs<br>
+                            Network overhead: {data['overhead_ms']:.1f}ms
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
                 else:
-                    # Show normal KPI card with button
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <div class="metric-number">{response_time:.0f}ms</div>
-                        <div class="metric-label">Total Response Time</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    # Add Get Firebolt Engine Time button
-                    if st.button("🔥 Get Firebolt Engine Time", type="secondary", key="engine_time_in_kpi", use_container_width=True):
+                    # Show Get Firebolt Engine Time button
+                    if st.button("🔥 Get Firebolt Engine Time", type="secondary", key="engine_time_button", use_container_width=True):
                         self.fetch_engine_time()
             
             # Data table

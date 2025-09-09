@@ -20,11 +20,15 @@ class RealFireboltMCPTest:
     """Real Firebolt MCP server test"""
     
     def __init__(self):
-        self.account = os.getenv('FIREBOLT_ACCOUNT', 'se-demo-account')
+        self.account = os.getenv('FIREBOLT_ACCOUNT', os.getenv('FIREBOLT_MCP_ACCOUNT', ''))
         self.database = os.getenv('FIREBOLT_DATABASE', 'kush_test') 
         self.engine = os.getenv('FIREBOLT_ENGINE', 'kush_test_engine')
-        self.service_account_id = os.getenv('FIREBOLT_SERVICE_ACCOUNT_ID', 'esIjzj7gw7uHRljSMRAnOOouho50ciy4')
-        self.service_account_secret = os.getenv('FIREBOLT_SERVICE_ACCOUNT_SECRET', '1qgsZ9cpVy6qaj4GrDMww8h4aHR7gAaj2fGiippLh3sQX2rz564JgSAErRHFwghS')
+        self.service_account_id = os.getenv('FIREBOLT_SERVICE_ACCOUNT_ID', os.getenv('FIREBOLT_MCP_CLIENT_ID'))
+        self.service_account_secret = os.getenv('FIREBOLT_SERVICE_ACCOUNT_SECRET', os.getenv('FIREBOLT_MCP_CLIENT_SECRET'))
+        
+        # Validate credentials are provided
+        if not self.service_account_id or not self.service_account_secret:
+            raise ValueError("Firebolt credentials must be provided via environment variables: FIREBOLT_SERVICE_ACCOUNT_ID/FIREBOLT_MCP_CLIENT_ID and FIREBOLT_SERVICE_ACCOUNT_SECRET/FIREBOLT_MCP_CLIENT_SECRET")
         
         # Test queries
         # Test queries for our ad_performance table
