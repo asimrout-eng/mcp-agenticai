@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asimkumarrout.github.io/mcp-nl-devrel/sitemap.xml

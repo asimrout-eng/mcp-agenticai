@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Firebolt AI-Powered Analytics Demos</title>
+    <meta name="description" content="Showcasing cutting-edge AI-powered analytics with Firebolt: Natural Language to SQL and Agentic AI Business Intelligence">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-fire"></i>
+                <span>Firebolt AI Demos</span>
+            </div>
+            <div class="nav-links">
+                <a href="#demos" class="nav-link">Demos</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#setup" class="nav-link">Setup</a>
+                <a href="https://github.com/asimkumarrout/mcp-nl-devrel" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">AI-Powered Analytics</span><br>
+                    with Firebolt & Claude
+                </h1>
+                <p class="hero-subtitle">
+                    Experience the future of business intelligence with natural language queries 
+                    and agentic AI reasoning, powered by Firebolt's lightning-fast analytics.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#demos" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Explore Demos
+                    </a>
+                    <a href="https://github.com/asimkumarrout/mcp-nl-devrel" class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-github"></i>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demos Section -->
+    <section id="demos" class="demos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🚀 Interactive Demos</h2>
+                <p class="section-subtitle">
+                    Two cutting-edge demonstrations showcasing the power of AI in analytics
+                </p>
+            </div>
+
+            <div class="demos-grid">
+                <!-- NL2SQL Demo -->
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <div class="demo-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h3 class="demo-title">Natural Language to SQL</h3>
+                        <p class="demo-description">
+                            Transform business questions into optimized SQL queries using Claude AI. 
+                            Connect to real Firebolt databases and get instant insights.
+                        </p>
+                    </div>
+
+                    <div class="demo-features">
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <span>Claude AI Integration</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-database"></i>
+                            <span>Real Firebolt Connection</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Auto Visualization</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Sub-second Queries</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-example">
+                        <div class="example-input">
+                            <i class="fas fa-user"></i>
+                            <span>"Show me revenue by country for premium players"</span>
+                        </div>
+                        <div class="example-arrow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="example-output">
+                            <i class="fas fa-code"></i>
+                            <span>SELECT country, SUM(revenue) FROM players p JOIN...</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-actions">
+                        <a href="demos/nl2sql.html" class="btn btn-demo">
+                            <i class="fas fa-play"></i>
+                            Try Demo
+                        </a>
+                        <a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/README.md" class="btn btn-docs" target="_blank">
+                            <i class="fas fa-book"></i>
+                            Documentation
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Agentic AI Demo -->
+                <div class="demo-card featured">
+                    <div class="featured-badge">
+                        <i class="fas fa-star"></i>
+                        New!
+                    </div>
+                    <div class="demo-header">
+                        <div class="demo-icon agentic">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="demo-title">Agentic AI Business Intelligence</h3>
+                        <p class="demo-description">
+                            Multi-step autonomous reasoning for complex business questions. 
+                            Watch the AI agent plan, analyze, and synthesize insights in real-time.
+                        </p>
+                    </div>
+
+                    <div class="demo-features">
+                        <div class="feature">
+                            <i class="fas fa-sitemap"></i>
+                            <span>Multi-Step Planning</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-eye"></i>
+                            <span>Reasoning Transparency</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Strategic Insights</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Business Context</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-example">
+                        <div class="example-input">
+                            <i class="fas fa-user"></i>
+                            <span>"What's driving our revenue growth and what risks should we watch?"</span>
+                        </div>
+                        <div class="example-steps">
+                            <div class="step">1. 🔍 Analyze revenue trends</div>
+                            <div class="step">2. 📊 Segment by demographics</div>
+                            <div class="step">3. 🎯 Identify risk factors</div>
+                            <div class="step">4. 💡 Strategic recommendations</div>
+                        </div>
+                    </div>
+
+                    <div class="demo-actions">
+                        <a href="demos/agentic-ai.html" class="btn btn-demo featured">
+                            <i class="fas fa-robot"></i>
+                            Experience AI Agent
+                        </a>
+                        <a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/AGENTIC_AI_DEMO_README.md" class="btn btn-docs" target="_blank">
+                            <i class="fas fa-book"></i>
+                            Agent Guide
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎯 Key Features</h2>
+                <p class="section-subtitle">
+                    Production-ready AI analytics with enterprise-grade capabilities
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Sub-second query execution with Firebolt's columnar engine and intelligent caching</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>Secure MCP protocol integration with credential management and access controls</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Production Ready</h3>
+                    <p>Docker containerization, error handling, and monitoring for enterprise deployment</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Auto Visualization</h3>
+                    <p>Intelligent chart generation with Plotly integration for immediate data insights</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Advanced AI</h3>
+                    <p>Claude 3.5 Sonnet integration with business context understanding and reasoning</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Business Focused</h3>
+                    <p>Strategic insights and recommendations tailored for business decision makers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">⚡ Technology Stack</h2>
+                <p class="section-subtitle">Built with cutting-edge technologies for maximum performance</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-logo">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h4>Firebolt</h4>
+                    <p>Ultra-fast cloud data warehouse</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-logo claude">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Claude 3.5 Sonnet</h4>
+                    <p>Advanced AI reasoning engine</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-logo">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h4>Streamlit</h4>
+                    <p>Interactive web application framework</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-logo">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <h4>Docker</h4>
+                    <p>Containerized MCP server integration</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-logo">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Plotly</h4>
+                    <p>Interactive data visualizations</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-logo">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4>MCP Protocol</h4>
+                    <p>Model Context Protocol integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section id="setup" class="setup">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🛠️ Quick Setup</h2>
+                <p class="section-subtitle">Get started in minutes with our streamlined setup process</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Clone Repository</h3>
+                        <div class="code-block">
+                            <code>git clone https://github.com/asimkumarrout/mcp-nl-devrel.git</code>
+                            <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/asimkumarrout/mcp-nl-devrel.git')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Install Dependencies</h3>
+                        <div class="code-block">
+                            <code>pip install -r requirements.txt</code>
+                            <button class="copy-btn" onclick="copyToClipboard('pip install -r requirements.txt')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Run Natural Language Demo</h3>
+                        <div class="code-block">
+                            <code>./run.sh your_anthropic_api_key</code>
+                            <button class="copy-btn" onclick="copyToClipboard('./run.sh your_anthropic_api_key')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Run Agentic AI Demo</h3>
+                        <div class="code-block">
+                            <code>./run_agentic_demo.sh your_anthropic_api_key</code>
+                            <button class="copy-btn" onclick="copyToClipboard('./run_agentic_demo.sh your_anthropic_api_key')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-note">
+                <div class="note-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="note-content">
+                    <h4>Prerequisites</h4>
+                    <ul>
+                        <li>Docker Desktop (for Firebolt MCP server)</li>
+                        <li>Python 3.8+ with virtual environment</li>
+                        <li>Anthropic API key for Claude integration</li>
+                        <li>Firebolt account with service account credentials</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🔥 Firebolt AI Demos</h4>
+                    <p>Showcasing the future of AI-powered analytics with natural language interfaces and agentic reasoning.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://docs.firebolt.io/" target="_blank">Firebolt Documentation</a></li>
+                        <li><a href="https://www.anthropic.com/claude" target="_blank">Claude AI</a></li>
+                        <li><a href="https://github.com/asimkumarrout/mcp-nl-devrel" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://github.com/asimkumarrout/mcp-nl-devrel" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/asimkumarrout" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/asimkumarrout" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Firebolt AI Demos. Built with ❤️ for demonstrating practical AI applications.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

@@ -129,12 +129,12 @@ class NL2SQLConverter:
             # Construct the prompt for OpenAI
             prompt = self._build_prompt(natural_language_query)
             
-            # Call Claude API with strict parameters for consistency
+            # Call Claude API with parameters optimized for complex queries
             response = self.client.messages.create(
                 model="claude-3-5-sonnet-20241022",
-                max_tokens=500,  # Reduced tokens for cost efficiency
-                temperature=0.0,  # Zero temperature for maximum consistency
-                system="You are a Firebolt SQL expert. Generate only valid Firebolt SQL syntax. Respond only with the specified JSON format.",
+                max_tokens=1000,  # Increased for complex business queries
+                temperature=0.1,  # Slight creativity for complex queries
+                system="You are a Firebolt SQL expert specializing in business analytics. Generate valid Firebolt SQL with proper JOINs and aggregations. Always respond with valid JSON only.",
                 messages=[
                     {
                         "role": "user",
@@ -191,8 +191,14 @@ RULES:
 
 USER QUESTION: {user_question}
 
-CRITICAL: Respond with ONLY valid JSON. No newlines or special characters in strings. Use this exact format:
-{{"sql": "your SQL query here", "explanation": "brief explanation", "confidence": 0.95}}"""
+CRITICAL: Respond with ONLY valid JSON format. Follow these rules strictly:
+- Keep explanations SHORT (under 100 characters)
+- Use \\n for newlines in SQL, not actual newlines
+- Escape any quotes in strings with \\"
+- No line breaks within the JSON structure
+
+Use this EXACT format:
+{{"sql": "SELECT columns FROM tables WHERE conditions", "explanation": "Brief description", "confidence": 0.95}}"""
         return prompt
     
     def _format_default_schema(self) -> str:
@@ -216,10 +222,16 @@ CRITICAL: Respond with ONLY valid JSON. No newlines or special characters in str
         return "\n".join(examples)
     
     def _parse_claude_response(self, response_content: str, original_question: str) -> Dict[str, any]:
-        """Parse Claude response with strict JSON parsing"""
+        """Parse Claude response with robust JSON parsing for complex queries"""
         try:
             # Clean response content
             content = response_content.strip()
+            
+            # Remove any markdown code blocks if present
+            if content.startswith("```"):
+                lines = content.split('\n')
+                content = '\n'.join(lines[1:-1]) if len(lines) > 2 else content
+                content = content.strip()
             
             # Ensure we have JSON format
             if not content.startswith("{"):
@@ -231,27 +243,76 @@ CRITICAL: Respond with ONLY valid JSON. No newlines or special characters in str
                 else:
                     raise ValueError("No JSON found in response")
             
-            # Parse JSON with robust error handling
+            # Parse JSON with multiple fallback strategies
+            parsed = None
+            
+            # Strategy 1: Direct JSON parsing
             try:
                 parsed = json.loads(content)
             except json.JSONDecodeError as json_error:
-                # Try to clean up common JSON issues
-                cleaned_content = content.replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t')
+                
+                # Strategy 2: Fix common escaping issues
                 try:
-                    parsed = json.loads(cleaned_content)
+                    # Escape unescaped quotes and newlines more carefully
+                    fixed_content = content
+                    # Fix newlines in strings
+                    fixed_content = re.sub(r'(?<!\\)\n', '\\n', fixed_content)
+                    # Fix unescaped quotes in values (but not structure quotes)
+                    fixed_content = re.sub(r':\s*"([^"]*)"([^"]*)"([^"]*)"', r': "\1\\\"\2\\\"\3"', fixed_content)
+                    parsed = json.loads(fixed_content)
                 except json.JSONDecodeError:
-                    # If still failing, try extracting just the essential parts
-                    sql_match = re.search(r'"sql"\s*:\s*"([^"]+)"', content)
-                    explanation_match = re.search(r'"explanation"\s*:\s*"([^"]+)"', content)
+                    
+                    # Strategy 3: Extract fields manually with improved regex
+                    sql_pattern = r'"sql"\s*:\s*"((?:[^"\\]|\\.)*)(?:"(?:\s*,|\s*}))'
+                    explanation_pattern = r'"explanation"\s*:\s*"((?:[^"\\]|\\.)*)(?:"(?:\s*,|\s*}))'
+                    confidence_pattern = r'"confidence"\s*:\s*([0-9.]+)'
+                    
+                    sql_match = re.search(sql_pattern, content, re.DOTALL)
+                    explanation_match = re.search(explanation_pattern, content, re.DOTALL)
+                    confidence_match = re.search(confidence_pattern, content)
                     
                     if sql_match:
+                        # Unescape the extracted SQL
+                        sql_text = sql_match.group(1)
+                        sql_text = sql_text.replace('\\"', '"').replace('\\n', '\n').replace('\\t', '\t')
+                        
+                        explanation_text = "SQL query generated for complex business analysis"
+                        if explanation_match:
+                            explanation_text = explanation_match.group(1)
+                            explanation_text = explanation_text.replace('\\"', '"').replace('\\n', ' ').replace('\\t', ' ')
+                        
+                        confidence_val = 0.8
+                        if confidence_match:
+                            try:
+                                confidence_val = float(confidence_match.group(1))
+                            except ValueError:
+                                pass
+                        
                         parsed = {
-                            "sql": sql_match.group(1),
-                            "explanation": explanation_match.group(1) if explanation_match else "SQL query generated",
-                            "confidence": 0.8
+                            "sql": sql_text,
+                            "explanation": explanation_text,
+                            "confidence": confidence_val
                         }
                     else:
-                        raise ValueError(f"JSON parsing failed: {str(json_error)}")
+                        # Strategy 4: Look for any SQL-like content as fallback
+                        sql_patterns = [
+                            r'SELECT\s+.*?(?:FROM|$)',
+                            r'WITH\s+.*?SELECT\s+.*',
+                            r'(?:^|\n)\s*(SELECT[\s\S]*?)(?:\n\n|$|```)',
+                        ]
+                        
+                        for pattern in sql_patterns:
+                            match = re.search(pattern, content, re.IGNORECASE | re.MULTILINE | re.DOTALL)
+                            if match:
+                                parsed = {
+                                    "sql": match.group(1).strip() if match.groups() else match.group(0).strip(),
+                                    "explanation": "Complex query extracted from response",
+                                    "confidence": 0.7
+                                }
+                                break
+                        
+                        if not parsed:
+                            raise ValueError(f"JSON parsing failed and no SQL found: {str(json_error)[:100]}")
             
             # Validate required fields
             if "sql" not in parsed:
@@ -313,14 +374,17 @@ CRITICAL: Respond with ONLY valid JSON. No newlines or special characters in str
             }
             
         except (json.JSONDecodeError, ValueError, KeyError) as e:
+            # For debugging complex queries, truncate raw response
+            debug_response = response_content[:500] + "..." if len(response_content) > 500 else response_content
+            
             return {
                 "success": False,
                 "error": f"Invalid response format: {str(e)}",
                 "sql": None,
-                "explanation": None,
+                "explanation": f"Error parsing response for complex query. Raw response preview: {debug_response[:100]}...",
                 "confidence": 0,
                 "original_question": original_question,
-                "raw_response": response_content
+                "raw_response": debug_response
             }
     
     def _extract_sql_from_text(self, text: str) -> str:
@@ -375,8 +439,7 @@ CRITICAL: Respond with ONLY valid JSON. No newlines or special characters in str
         if not sql_query.upper().strip().startswith('SELECT'):
             issues.append("Query should start with SELECT")
         
-        if 'ad_performance' not in sql_query:
-            issues.append("Query should reference the ad_performance table")
+        # Skip hardcoded table validation - using dynamic schema now
         
         # Check for potential SQL injection patterns
         dangerous_keywords = ['DROP', 'DELETE', 'UPDATE', 'INSERT', 'ALTER', 'CREATE']

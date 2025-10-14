@@ -1,0 +1,71 @@
+# GitHub Pages Jekyll Configuration
+title: "Firebolt AI-Powered Analytics Demos"
+description: "Showcasing cutting-edge AI-powered analytics with Firebolt: Natural Language to SQL and Agentic AI Business Intelligence"
+author: "Asim Kumar Rout"
+email: "asim@example.com"
+url: "https://asimkumarrout.github.io"
+baseurl: "/mcp-nl-devrel"
+
+# GitHub repository
+github_username: asimkumarrout
+repository: asimkumarrout/mcp-nl-devrel
+
+# Social media
+linkedin_username: asimkumarrout
+twitter_username: asimkumarrout
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .bundle
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
+  - README.md
+
+# SEO and social media
+logo: /assets/images/firebolt-logo.png
+social:
+  name: Asim Kumar Rout
+  links:
+    - https://github.com/asimkumarrout
+    - https://linkedin.com/in/asimkumarrout
+    - https://twitter.com/asimkumarrout
+
+# Google Analytics (optional)
+# google_analytics: UA-XXXXXXXX-X
+
+# Collections
+collections:
+  demos:
+    output: true
+    permalink: /:collection/:name/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "demos"
+    values:
+      layout: "demo"
+
+# Sass
+sass:
+  sass_dir: _sass
+  style: compressed

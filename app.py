@@ -419,16 +419,34 @@ class FireboltNL2SQLApp:
             if 'auto_client_secret' not in st.session_state:
                 st.session_state.auto_client_secret = ""
             
-            # Manual credential entry only - no hardcoded options
+            # Client ID dropdown options
             client_id_options = [
-                "Enter manually"
+                "Enter manually",
+                "ZxhHg0PKCpwIUW2N8406KP2o00FpMdAc"
             ]
             
-            # Manual credential entry only - users must provide their own credentials
-            custom_client_id = st.text_input("🔑 Client ID", value="", placeholder="Enter your Firebolt client ID", key="custom_client_id")
-            custom_client_secret = st.text_input("🔒 Client Secret", value="", type="password", placeholder="Enter your Firebolt client secret", key="custom_client_secret")
-            st.session_state.selected_client_id = custom_client_id
-            st.session_state.auto_client_secret = custom_client_secret
+            # Client ID selection dropdown
+            selected_client_option = st.selectbox(
+                "🔑 Client ID", 
+                client_id_options, 
+                index=0,
+                key="client_id_dropdown"
+            )
+            
+            # Handle client ID selection
+            if selected_client_option == "Enter manually":
+                custom_client_id = st.text_input("Enter Custom Client ID", value="", placeholder="Enter your Firebolt client ID", key="custom_client_id")
+                custom_client_secret = st.text_input("🔒 Client Secret", value="", type="password", placeholder="Enter your Firebolt client secret", key="custom_client_secret")
+                st.session_state.selected_client_id = custom_client_id
+                st.session_state.auto_client_secret = custom_client_secret
+            else:
+                # Auto-populate credentials for selected client ID
+                st.session_state.selected_client_id = selected_client_option
+                st.session_state.auto_client_secret = "AREz7t7yydaw2gRQIJgRIBqdNvfQ3Remm7cS85DNPNkrLP1wVcKkxzOjJf_4YmAk"
+                
+                # Display the selected credentials (show client ID, mask client secret)
+                st.text_input("🔑 Selected Client ID", value=selected_client_option, disabled=True, key="display_client_id")
+                st.text_input("🔒 Auto-populated Client Secret", value="*" * 20 + "...masked", disabled=True, type="password", key="display_client_secret")
 
             with st.form("connection_form"):
                 col1, col2 = st.columns(2)
@@ -605,13 +623,55 @@ class FireboltNL2SQLApp:
                 elif "client_id" in error_msg.lower() or "client_secret" in error_msg.lower():
                     st.error(f"❌ **Authentication Failed**: Invalid Client ID or Client Secret")
                     st.error("🔍 **Please verify**: Your service account credentials are correct")
+                elif "schema discovery failed" in error_msg.lower():
+                    st.error(f"❌ **Schema Discovery Failed**: Connected to Firebolt but unable to read database schema")
+                    st.error(f"🔍 **Database Issue**: Please verify database '{database}' exists and you have read permissions")
+                    st.error("💡 **Common causes**: Wrong database name, insufficient RBAC permissions, or database not accessible")
+                elif "failed basic connectivity test" in error_msg.lower():
+                    st.error(f"❌ **Basic Connectivity Failed**: Cannot execute simple queries on the database")
+                    st.error(f"🔍 **Engine Issue**: Please verify engine '{engine}' is running and accessible")
                 else:
                     st.error(f"❌ **Connection Failed**: {error_msg}")
+                    st.error("🔍 **Debug Details**: Full error message shown above for troubleshooting")
                 
                 st.warning("💡 **Common Issues**: Account name typos, expired credentials, insufficient RBAC permissions, or network connectivity")
                 
                 # Add a retry suggestion
                 st.info("🔄 **Next Steps**: Double-check your credentials above and try connecting again")
+                
+                # Add troubleshooting section
+                with st.expander("🛠️ Connection Troubleshooting Guide", expanded=False):
+                    st.markdown("""
+                    ### 🔍 **Common Connection Issues:**
+                    
+                    **1. Account Name Issues:**
+                    - Verify your account name exactly matches your Firebolt account
+                    - Check for typos (case-sensitive)
+                    - Ensure you have access to this account
+                    
+                    **2. Database/Engine Issues:**
+                    - Database must exist and be accessible 
+                    - Engine must be running (not stopped)
+                    - You need appropriate RBAC permissions
+                    
+                    **3. Credential Issues:**
+                    - Client ID and Secret must be from a valid service account
+                    - Service account needs database access permissions
+                    - Check if credentials have expired
+                    
+                    **4. Network/Connectivity:**
+                    - Check your internet connection
+                    - Corporate firewall might block connections
+                    - Try connecting from a different network
+                    
+                    ### ✅ **Quick Test Checklist:**
+                    - [ ] Account name is spelled correctly
+                    - [ ] Database exists in your account
+                    - [ ] Engine is running (not stopped)
+                    - [ ] Service account has access to database
+                    - [ ] Client ID/Secret are correct and not expired
+                    """)
+                
                 st.rerun()
     
     def disconnect_from_firebolt(self):
@@ -629,9 +689,25 @@ class FireboltNL2SQLApp:
     def discover_schema(self):
         """Discover database schema"""
         try:
-            # Get tables
-            tables_query = "SELECT table_name, table_type, ddl, primary_index FROM information_schema.tables WHERE table_schema = 'public'"
+            # Test basic connectivity first
+            test_query = "SELECT 1 as test_connection"
+            test_result = asyncio.run(execute_query_via_mcp(test_query))
+            if not test_result:
+                raise Exception("Failed basic connectivity test")
+            
+            # Get tables - try simplified query first
+            tables_query = "SELECT table_name, table_type FROM information_schema.tables WHERE table_schema = 'public'"
             tables_result = asyncio.run(execute_query_via_mcp(tables_query))
+            
+            # If basic tables query works, try with more details
+            if tables_result:
+                try:
+                    detailed_tables_query = "SELECT table_name, table_type, ddl, primary_index FROM information_schema.tables WHERE table_schema = 'public'"
+                    detailed_result = asyncio.run(execute_query_via_mcp(detailed_tables_query))
+                    tables_result = detailed_result
+                except:
+                    # Fall back to basic query if detailed query fails
+                    pass
             
             # Get columns
             columns_query = "SELECT table_name, column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' ORDER BY table_name, ordinal_position"
@@ -645,8 +721,8 @@ class FireboltNL2SQLApp:
                 table_name = table['table_name']
                 schema_info[table_name] = {
                     'type': table.get('table_type', 'TABLE'),
-                    'ddl': table.get('ddl', ''),
-                    'primary_index': table.get('primary_index', 'None'),
+                    'ddl': table.get('ddl', 'Not available'),
+                    'primary_index': table.get('primary_index', 'Not available'),
                     'columns': []
                 }
             
@@ -666,31 +742,128 @@ class FireboltNL2SQLApp:
             raise Exception(f"Schema discovery failed: {str(e)}")
     
     def format_schema_for_claude(self):
-        """Format schema information for Claude"""
+        """Format schema information for Claude with enhanced descriptions"""
         if not st.session_state.schema_info:
             return ""
         
+        # Enhanced table descriptions and relationships
+        table_descriptions = {
+            'players': {
+                'purpose': 'Master dimension table containing player profiles and demographics',
+                'business_use': 'Player registration info, geographic data, premium status, engagement levels',
+                'key_columns': ['player_id (primary key)', 'country', 'level', 'is_premium', 'total_playtime_hours'],
+                'relationships': 'Joins with ALL other tables via player_id - central hub of the schema'
+            },
+            'games': {
+                'purpose': 'Fact table storing individual gaming sessions and performance metrics',
+                'business_use': 'Game session analysis, performance tracking, completion rates, engagement measurement',
+                'key_columns': ['game_id', 'player_id', 'game_type', 'duration_seconds', 'score', 'level_reached'],
+                'relationships': 'Links to players (player_id) and player_events (game_id, player_id)'
+            },
+            'player_events': {
+                'purpose': 'Detailed event tracking table for player actions and behaviors',
+                'business_use': 'Behavioral analysis, feature usage, engagement patterns, real-time analytics',
+                'key_columns': ['event_id', 'player_id', 'game_id', 'event_type', 'level', 'event_timestamp'],
+                'relationships': 'Links to players (player_id) and games (game_id, player_id)'
+            },
+            'player_events_big': {
+                'purpose': 'Large-scale event data with JSON payloads for detailed analytics',
+                'business_use': 'Advanced behavioral analysis, A/B testing data, detailed event tracking',
+                'key_columns': ['event_id', 'player_id', 'game_id', 'event_type', 'level', 'payload_json'],
+                'relationships': 'Alternative to player_events with richer data - links to players and games'
+            },
+            'transactions': {
+                'purpose': 'Monetization fact table tracking all player purchases and financial activity',
+                'business_use': 'Revenue analysis, player lifetime value, monetization optimization, item popularity',
+                'key_columns': ['transaction_id', 'player_id', 'amount_usd', 'item_category', 'payment_method'],
+                'relationships': 'Links to players (player_id) for revenue analysis and LTV calculations'
+            },
+            'leaderboards': {
+                'purpose': 'Competition and ranking data showing player performance over time',
+                'business_use': 'Competitive analysis, player engagement through competition, seasonal performance',
+                'key_columns': ['leaderboard_id', 'player_id', 'rank_position', 'score', 'period_type'],
+                'relationships': 'Links to players (player_id) for competitive analysis and ranking trends'
+            }
+        }
+        
+        # External table descriptions
+        external_descriptions = {
+            'ext_gaming_events': 'Real-time external event stream - subset of player events',
+            'ext_iceberg_player_events': 'External Iceberg table with real-time player event data',
+            'ext_player_events': 'External player events with JSON payloads for streaming analytics',
+            'ext_player_events_all': 'Comprehensive external events table for batch processing',
+            'ext_player_events_big_run': 'Large-scale external events for performance testing',
+            'ext_player_transactions': 'External transaction data for real-time revenue tracking'
+        }
+        
         context_parts = [
             f"Database: {st.session_state.credentials['database']}",
-            "\\nCOMPLETE DATABASE SCHEMA:\\n"
+            "\\n=== GAMING ANALYTICS DATABASE SCHEMA ===\\n",
+            "🎮 BUSINESS CONTEXT: Gaming company with players, game sessions, events, transactions, and competitions",
+            "💡 SCHEMA DESIGN: Player-centric star schema - all tables join through player_id\\n",
+            "📊 CORE ANALYTICS USE CASES:",
+            "- Player demographics and geographic analysis (players table)",
+            "- Game performance and session analysis (games table)", 
+            "- Behavioral tracking and engagement (player_events tables)",
+            "- Revenue and monetization analysis (transactions table)",
+            "- Competitive and ranking analysis (leaderboards table)\\n",
+            "🔗 KEY RELATIONSHIPS:",
+            "- players ←→ games (player_id): Player sessions and performance",
+            "- players ←→ player_events (player_id): Player behavior and actions", 
+            "- players ←→ transactions (player_id): Player spending and monetization",
+            "- players ←→ leaderboards (player_id): Player rankings and competition",
+            "- games ←→ player_events (game_id, player_id): Events within specific game sessions\\n",
+            "📋 DETAILED TABLE SCHEMA:\\n"
         ]
         
+        # Process each table with enhanced descriptions
         for table_name, info in st.session_state.schema_info.items():
-            context_parts.append(f"## Table: {table_name} ({info['type']})")
-            context_parts.append(f"Primary Index: {info['primary_index']}")
-            context_parts.append("Columns:")
+            context_parts.append(f"## 📊 Table: {table_name} ({info['type']})")
+            context_parts.append(f"🔑 Primary Index: {info['primary_index']}")
             
+            # Add detailed description if available
+            if table_name in table_descriptions:
+                desc = table_descriptions[table_name]
+                context_parts.append(f"🎯 Purpose: {desc['purpose']}")
+                context_parts.append(f"💼 Business Use: {desc['business_use']}")
+                context_parts.append(f"🔗 Relationships: {desc['relationships']}")
+                context_parts.append(f"⭐ Key Columns: {', '.join(desc['key_columns'])}")
+            elif table_name in external_descriptions:
+                context_parts.append(f"🌐 External Table: {external_descriptions[table_name]}")
+            
+            context_parts.append("📋 All Columns:")
             for col in info['columns']:
-                context_parts.append(f"  - {col['name']} ({col['type']})")
+                context_parts.append(f"   • {col['name']} ({col['type']})")
             
             context_parts.append("")
+        
+        # Add query guidance
+        context_parts.extend([
+            "💡 QUERY GUIDANCE:",
+            "- For player analysis: Start with 'players' table and join others via player_id",
+            "- For game performance: Use 'games' table with player demographics from 'players'",
+            "- For behavioral analysis: Use 'player_events' or 'player_events_big' with player context",
+            "- For revenue analysis: Use 'transactions' table joined with 'players' for demographics",
+            "- For competitive analysis: Use 'leaderboards' with 'players' for ranking insights",
+            "- For real-time data: External tables (ext_*) contain streaming/batch data\\n",
+            "🎯 COMMON ANALYSIS PATTERNS:",
+            "- Geographic analysis: GROUP BY players.country",
+            "- Time-series analysis: Use date/timestamp columns with date functions", 
+            "- Player segmentation: Use players.is_premium, players.level, etc.",
+            "- Revenue metrics: SUM(transactions.amount_usd), AVG revenue per player",
+            "- Engagement metrics: COUNT sessions, AVG duration, event frequencies"
+        ])
         
         return '\\n'.join(context_parts)
     
     def render_schema_info(self):
         """Render schema information"""
         if st.session_state.schema_info:
-            with st.expander("📋 Database Schema", expanded=False):
+            # User-friendly table descriptions and relationships
+            self.render_table_guide()
+            
+            # Technical schema details (collapsed by default)
+            with st.expander("📋 Technical Schema Details", expanded=False):
                 for table_name, info in st.session_state.schema_info.items():
                     st.markdown(f"""
                     <div class="schema-card">
@@ -699,6 +872,150 @@ class FireboltNL2SQLApp:
                         <p><strong>Columns:</strong> {', '.join([col['name'] for col in info['columns']])}</p>
                     </div>
                     """, unsafe_allow_html=True)
+    
+    def render_table_guide(self):
+        """Render user-friendly table guide and relationships"""
+        
+        # User-friendly table descriptions
+        table_guide = {
+            'players': {
+                'description': '👥 Player profiles with demographics, location, premium status, and activity levels',
+                'example_questions': [
+                    "How many players by country?",
+                    "Show premium vs non-premium player counts",
+                    "Which countries have the most active players?"
+                ]
+            },
+            'games': {
+                'description': '🎮 Individual gaming sessions with scores, duration, and completion status',
+                'example_questions': [
+                    "Average session duration by game type",
+                    "Which games have highest completion rates?",
+                    "Show daily gaming activity trends"
+                ]
+            },
+            'player_events': {
+                'description': '📊 Detailed player actions and behaviors during gameplay',
+                'example_questions': [
+                    "Most common player events by game type",
+                    "Player behavior patterns by level",
+                    "Event activity by time of day"
+                ]
+            },
+            'player_events_big': {
+                'description': '📈 Large-scale event data with detailed JSON payloads for advanced analytics',
+                'example_questions': [
+                    "Complex event analysis across game types",
+                    "Advanced behavioral patterns",
+                    "Event data with rich context"
+                ]
+            },
+            'transactions': {
+                'description': '💰 Player purchases, spending patterns, and monetization data',
+                'example_questions': [
+                    "Revenue by country and player type",
+                    "Average spending per player",
+                    "Most popular purchase categories"
+                ]
+            },
+            'leaderboards': {
+                'description': '🏆 Player rankings, competition scores, and achievement data',
+                'example_questions': [
+                    "Top players by country",
+                    "Leaderboard trends over time",
+                    "Competitive performance by game type"
+                ]
+            }
+        }
+        
+        # External table descriptions
+        external_guide = {
+            'ext_iceberg_player_events': '🌐 Real-time player events from external data lake',
+            'ext_player_events': '📡 Streaming player event data for live analytics',
+            'ext_gaming_events': '⚡ External gaming event feed',
+            'ext_player_transactions': '💳 Real-time transaction data stream'
+        }
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                   padding: 2rem; border-radius: 16px; margin: 1.5rem 0; color: white; 
+                   box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);">
+            <h2 style="margin: 0 0 1rem 0; text-align: center;">🎮 Available Gaming Data</h2>
+            <p style="text-align: center; margin: 0; opacity: 0.9; font-size: 1.1rem;">
+                Understanding your data helps you ask better questions!
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Core tables section
+        st.markdown("### 🎯 **Core Data Tables**")
+        
+        # Check which tables actually exist in the schema
+        available_tables = list(st.session_state.schema_info.keys())
+        
+        # Display core tables in columns
+        col1, col2 = st.columns(2)
+        
+        core_tables = list(table_guide.keys())
+        for i, table_name in enumerate(core_tables):
+            if table_name in available_tables:
+                with col1 if i % 2 == 0 else col2:
+                    info = table_guide[table_name]
+                    st.markdown(f"""
+                    **{table_name.upper()}**  
+                    {info['description']}
+                    
+                    *Example questions:*
+                    - {info['example_questions'][0]}
+                    - {info['example_questions'][1]}
+                    """)
+                    st.markdown("---")
+        
+        # External tables section if they exist
+        external_tables = [t for t in available_tables if t.startswith('ext_')]
+        if external_tables:
+            st.markdown("### 🌐 **Real-time External Data**")
+            for table_name in external_tables:
+                if table_name in external_guide:
+                    st.markdown(f"**{table_name}**: {external_guide[table_name]}")
+        
+        # Relationships guide
+        st.markdown("### 🔗 **Table Relationships**")
+        st.markdown("""
+        **Key Connections:**
+        - `players` connects to **ALL** other tables via `player_id` (central hub)
+        - `games` + `players` = Player session analysis with demographics
+        - `transactions` + `players` = Revenue analysis by player segments  
+        - `player_events` + `games` = Behavioral analysis within game sessions
+        - `leaderboards` + `players` = Competitive performance by geography
+        
+        **💡 Pro Tips for Questions:**
+        - **Geographic Analysis**: "by country", "by region"
+        - **Player Segments**: "premium vs non-premium", "by player level"
+        - **Time Analysis**: "daily trends", "monthly patterns", "last 30 days"
+        - **Performance Metrics**: "average", "total", "top 10", "completion rates"
+        """)
+        
+        # Quick examples section
+        with st.expander("🚀 Quick Question Examples", expanded=False):
+            st.markdown("""
+            **Simple Questions:**
+            - "How many players by country?"
+            - "Total revenue by game type"
+            - "Average session duration"
+            
+            **Multi-table Analysis:**
+            - "Premium players with highest scores by country"
+            - "Revenue per player by game type and region"  
+            - "Player event activity for top-spending users"
+            
+            **Complex Business Questions:**
+            - "Show player acquisition trends with retention rates by segment"
+            - "Analyze game performance with player engagement and monetization"
+            - "Compare real-time event data with historical player patterns"
+            """)
+        
+        st.markdown("---")
     
     def render_query_interface(self):
         """Render query interface"""
@@ -736,11 +1053,14 @@ class FireboltNL2SQLApp:
             # Extract just the query text before the parentheses
             default_value = selected_demo.split(" (")[0]
         
+        # Always show editable text area
         question = st.text_area(
             "Enter your question in natural language:",
             value=default_value,
             height=100,
-            placeholder="Example: Show me the count of players by country"
+            placeholder="Example: Show me the count of players by country",
+            key="question_input",
+            help="✏️ You can edit the selected demo query or type your own custom question"
         )
         
         col1, col2 = st.columns([1, 1])

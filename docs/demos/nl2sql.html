@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language to SQL Demo | Firebolt AI</title>
+    <meta name="description" content="Transform business questions into SQL queries using Claude AI and Firebolt's lightning-fast analytics">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-fire"></i>
+                    <span>Firebolt AI Demos</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#setup" class="nav-link">Setup</a>
+                <a href="https://github.com/asimkumarrout/mcp-nl-devrel" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Natural Language to SQL</span><br>
+                    Powered by Claude AI
+                </h1>
+                <p class="hero-subtitle">
+                    Transform complex business questions into optimized SQL queries instantly. 
+                    Connect to real Firebolt databases and get insights in natural language.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#setup" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </a>
+                    <a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/README.md" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book"></i>
+                        Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="demos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎯 What This Demo Does</h2>
+                <p class="section-subtitle">
+                    A complete natural language interface for SQL query generation and execution
+                </p>
+            </div>
+
+            <div class="demos-grid" style="grid-template-columns: 1fr;">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="demo-title">Complete Analytics Workflow</h3>
+                        <p class="demo-description">
+                            This demo showcases a production-ready natural language to SQL system that connects 
+                            to real Firebolt databases, generates optimized queries, and provides interactive visualizations.
+                        </p>
+                    </div>
+
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>1. Natural Language Input</h4>
+                                <p>Ask business questions in plain English</p>
+                                <div class="step-example">
+                                    "Show me revenue by country for premium players this quarter"
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>2. AI-Powered SQL Generation</h4>
+                                <p>Claude AI analyzes your question and database schema</p>
+                                <div class="step-example">
+                                    Generates optimized SQL with proper JOINs, aggregations, and filtering
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>3. Real Database Execution</h4>
+                                <p>Connects to live Firebolt database via MCP protocol</p>
+                                <div class="step-example">
+                                    Sub-second query execution on columnar data warehouse
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>4. Interactive Visualization</h4>
+                                <p>Automatic chart generation with Plotly integration</p>
+                                <div class="step-example">
+                                    Bar charts, line graphs, pie charts, and scatter plots
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🚀 Key Features</h2>
+                <p class="section-subtitle">
+                    Production-ready capabilities for enterprise analytics
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Sub-Second Performance</h3>
+                    <p>Firebolt's columnar engine delivers lightning-fast query execution with automatic optimization and intelligent caching.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Intelligent SQL Generation</h3>
+                    <p>Claude 3.5 Sonnet understands business context and generates complex SQL queries with proper JOINs and aggregations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Real Database Connectivity</h3>
+                    <p>Direct integration with Firebolt databases through secure MCP protocol with credential management.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Auto Visualization</h3>
+                    <p>Intelligent chart type selection and automatic visualization generation based on query results and data types.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>SQL Editing</h3>
+                    <p>Review and modify generated SQL queries before execution with syntax highlighting and validation.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Performance Metrics</h3>
+                    <p>Real-time execution statistics including Firebolt engine time, network overhead, and query optimization insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Queries -->
+    <section class="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">💡 Example Queries</h2>
+                <p class="section-subtitle">Try these sample questions to explore the demo's capabilities</p>
+            </div>
+
+            <div class="example-queries">
+                <div class="query-category">
+                    <h3><i class="fas fa-chart-line"></i> Revenue Analysis</h3>
+                    <div class="query-examples">
+                        <div class="query-example">
+                            <div class="query-text">"Show me total revenue by country for the last 6 months"</div>
+                            <div class="query-desc">Geographic revenue analysis with time filtering</div>
+                        </div>
+                        <div class="query-example">
+                            <div class="query-text">"What's the average revenue per user by player tier?"</div>
+                            <div class="query-desc">Player segmentation and monetization metrics</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="query-category">
+                    <h3><i class="fas fa-users"></i> Player Analytics</h3>
+                    <div class="query-examples">
+                        <div class="query-example">
+                            <div class="query-text">"How many active players do we have by game type?"</div>
+                            <div class="query-desc">Player engagement across different game categories</div>
+                        </div>
+                        <div class="query-example">
+                            <div class="query-text">"Show me player retention rates by signup month"</div>
+                            <div class="query-desc">Cohort analysis and retention tracking</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="query-category">
+                    <h3><i class="fas fa-trophy"></i> Performance Metrics</h3>
+                    <div class="query-examples">
+                        <div class="query-example">
+                            <div class="query-text">"What are the top 10 highest-scoring players this month?"</div>
+                            <div class="query-desc">Leaderboard and competitive analysis</div>
+                        </div>
+                        <div class="query-example">
+                            <div class="query-text">"Show me game session duration trends over time"</div>
+                            <div class="query-desc">Engagement patterns and time-series analysis</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section id="setup" class="setup">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🛠️ Setup Instructions</h2>
+                <p class="section-subtitle">Get the Natural Language to SQL demo running locally</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Prerequisites</h3>
+                        <ul style="margin-left: 2rem; color: #718096;">
+                            <li>Docker Desktop installed and running</li>
+                            <li>Python 3.8+ with pip</li>
+                            <li>Anthropic API key (Claude access)</li>
+                            <li>Firebolt account with service account credentials</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Clone and Install</h3>
+                        <div class="code-block">
+                            <code>git clone https://github.com/asimkumarrout/mcp-nl-devrel.git
+cd mcp-nl-devrel
+pip install -r requirements.txt</code>
+                            <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/asimkumarrout/mcp-nl-devrel.git\ncd mcp-nl-devrel\npip install -r requirements.txt')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Configure Credentials</h3>
+                        <div class="code-block">
+                            <code># Set your Anthropic API key
+export ANTHROPIC_API_KEY="your_api_key_here"
+
+# Configure Firebolt credentials (optional - can set in UI)
+export FIREBOLT_MCP_CLIENT_ID="your_service_account_id"
+export FIREBOLT_MCP_CLIENT_SECRET="your_service_account_secret"</code>
+                            <button class="copy-btn" onclick="copyToClipboard('export ANTHROPIC_API_KEY=&quot;your_api_key_here&quot;')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Launch Demo</h3>
+                        <div class="code-block">
+                            <code># Run the Natural Language to SQL demo
+./run.sh your_anthropic_api_key
+
+# Access at: http://localhost:8504</code>
+                            <button class="copy-btn" onclick="copyToClipboard('./run.sh your_anthropic_api_key')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-note">
+                <div class="note-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="note-content">
+                    <h4>Demo Tips</h4>
+                    <ul>
+                        <li><strong>Connection:</strong> Use the UI to enter Firebolt credentials or set environment variables</li>
+                        <li><strong>Questions:</strong> Start with simple queries and progress to complex multi-table joins</li>
+                        <li><strong>SQL Editing:</strong> Review and modify generated SQL before execution</li>
+                        <li><strong>Visualizations:</strong> Experiment with different chart types for your data</li>
+                        <li><strong>Performance:</strong> Check Firebolt engine times to see sub-second execution</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🏗️ Architecture</h2>
+                <p class="section-subtitle">How the Natural Language to SQL system works</p>
+            </div>
+
+            <div class="architecture-flow">
+                <div class="arch-component">
+                    <div class="component-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>User Input</h4>
+                    <p>Natural language business questions</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="arch-component">
+                    <div class="component-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Claude AI</h4>
+                    <p>Schema-aware SQL generation</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="arch-component">
+                    <div class="component-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4>MCP Protocol</h4>
+                    <p>Secure database connection</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="arch-component">
+                    <div class="component-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h4>Firebolt DB</h4>
+                    <p>Lightning-fast query execution</p>
+                </div>
+                
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="arch-component">
+                    <div class="component-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Visualization</h4>
+                    <p>Interactive charts and insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🔥 Natural Language to SQL</h4>
+                    <p>Transform business questions into SQL queries with AI-powered natural language processing and real-time database connectivity.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/README.md" target="_blank">Documentation</a></li>
+                        <li><a href="https://docs.firebolt.io/" target="_blank">Firebolt Docs</a></li>
+                        <li><a href="https://www.anthropic.com/claude" target="_blank">Claude AI</a></li>
+                        <li><a href="../index.html">All Demos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://github.com/asimkumarrout/mcp-nl-devrel" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/asimkumarrout" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/asimkumarrout" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Firebolt AI Demos. Built with ❤️ for demonstrating practical AI applications.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    
+    <style>
+    .workflow-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .workflow-step {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+    
+    .step-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-secondary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        flex-shrink: 0;
+    }
+    
+    .step-content h4 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .step-example {
+        background: var(--bg-light);
+        padding: 0.8rem;
+        border-radius: 8px;
+        font-style: italic;
+        margin-top: 0.5rem;
+        border-left: 3px solid var(--secondary-color);
+    }
+    
+    .example-queries {
+        margin-top: 2rem;
+    }
+    
+    .query-category {
+        margin-bottom: 3rem;
+    }
+    
+    .query-category h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .query-category h3 i {
+        color: var(--secondary-color);
+    }
+    
+    .query-examples {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1rem;
+    }
+    
+    .query-example {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--secondary-color);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .query-text {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+        font-style: italic;
+    }
+    
+    .query-desc {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+    
+    .architecture-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+    
+    .arch-component {
+        text-align: center;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        min-width: 150px;
+    }
+    
+    .component-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-secondary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .flow-arrow {
+        font-size: 1.5rem;
+        color: var(--secondary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .workflow-step {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .query-examples {
+            grid-template-columns: 1fr;
+        }
+        
+        .architecture-flow {
+            flex-direction: column;
+        }
+        
+        .flow-arrow {
+            transform: rotate(90deg);
+        }
+    }
+    </style>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Business Intelligence Demo | Firebolt AI</title>
+    <meta name="description" content="Multi-step autonomous AI reasoning for complex business intelligence with transparent decision-making">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-fire"></i>
+                    <span>Firebolt AI Demos</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#scenarios" class="nav-link">Scenarios</a>
+                <a href="#setup" class="nav-link">Setup</a>
+                <a href="https://github.com/asimkumarrout/mcp-nl-devrel" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Agentic AI</span><br>
+                    Business Intelligence
+                </h1>
+                <p class="hero-subtitle">
+                    Watch AI agents autonomously reason through complex business problems with 
+                    multi-step planning, hypothesis testing, and strategic recommendations.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#setup" class="btn btn-primary">
+                        <i class="fas fa-robot"></i>
+                        Try the Agent
+                    </a>
+                    <a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/AGENTIC_AI_DEMO_README.md" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book"></i>
+                        Agent Guide
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="demos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🤖 What Makes This "Agentic"</h2>
+                <p class="section-subtitle">
+                    Advanced AI that reasons, plans, and adapts autonomously
+                </p>
+            </div>
+
+            <div class="agentic-features">
+                <div class="agentic-feature">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>Multi-Step Reasoning</h3>
+                    <p>The AI agent breaks down complex business questions into logical analysis steps, each building on previous findings.</p>
+                    <div class="feature-example">
+                        <strong>Example:</strong> "What's driving our revenue?" becomes:
+                        <ol>
+                            <li>Analyze current revenue trends</li>
+                            <li>Segment by demographics and regions</li>
+                            <li>Identify top drivers and risk factors</li>
+                            <li>Generate strategic recommendations</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="agentic-feature">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Planning Transparency</h3>
+                    <p>Watch the agent's decision-making process in real-time through the live planning trace sidebar.</p>
+                    <div class="feature-example">
+                        <strong>You See:</strong>
+                        <ul>
+                            <li>✅ Step-by-step progress</li>
+                            <li>🎯 Confidence scoring (85-95%)</li>
+                            <li>💡 Insights as they're discovered</li>
+                            <li>🔄 Adaptive reasoning paths</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="agentic-feature">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Business Context Understanding</h3>
+                    <p>Goes beyond data reporting to provide strategic insights and actionable business recommendations.</p>
+                    <div class="feature-example">
+                        <strong>Strategic Output:</strong>
+                        <ul>
+                            <li>🚀 Growth opportunities identified</li>
+                            <li>⚠️ Risk factors and mitigation strategies</li>
+                            <li>💰 ROI projections and investment priorities</li>
+                            <li>📈 Performance benchmarking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="agentic-feature">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Hypothesis Formation & Testing</h3>
+                    <p>The agent forms business hypotheses and validates them with data evidence, like a human analyst.</p>
+                    <div class="feature-example">
+                        <strong>Agent Thinking:</strong>
+                        <ul>
+                            <li>"Premium players seem to drive most revenue..."</li>
+                            <li>"Let me test correlation with engagement..."</li>
+                            <li>"Statistical significance: p < 0.01 ✅"</li>
+                            <li>"Recommendation: Focus premium acquisition"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">⚡ Advanced Capabilities</h2>
+                <p class="section-subtitle">
+                    Production-ready agentic AI for enterprise business intelligence
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Adaptive Analysis Paths</h3>
+                    <p>Different question types trigger specialized analysis workflows: revenue optimization, player retention, market expansion, correlation analysis.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Question-Specific Insights</h3>
+                    <p>Revenue questions get monetization insights, player questions get engagement analysis, geographic questions get expansion strategies.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <h3>Real-Time Reasoning</h3>
+                    <p>Watch the AI agent's thinking process unfold step-by-step in the planning trace sidebar with live status updates.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-percent"></i>
+                    </div>
+                    <h3>Confidence Scoring</h3>
+                    <p>Each analysis step includes confidence levels (85-95%) so you understand the reliability of insights and recommendations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h3>Step-by-Step Execution</h3>
+                    <p>Control the analysis pace with manual step execution or auto-run mode. Perfect for demonstrations and learning.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>Executive Summaries</h3>
+                    <p>Get executive-level insights with strategic recommendations, risk assessments, and actionable next steps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Scenarios -->
+    <section id="scenarios" class="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎭 Demo Scenarios</h2>
+                <p class="section-subtitle">Explore different types of agentic AI business analysis</p>
+            </div>
+
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Revenue Intelligence Agent</h3>
+                    </div>
+                    <div class="scenario-question">
+                        "What's happening with our gaming revenue and should we be concerned?"
+                    </div>
+                    <div class="scenario-process">
+                        <h4>Agent Analysis Process:</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>🔍 Analyzing current revenue trends and patterns</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>📊 Segmenting revenue by player demographics and regions</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>📈 Comparing performance across time periods</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>🎯 Identifying top revenue drivers and potential issues</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>✅ Validating insights with supporting data</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>💡 Generating strategic recommendations</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-insights">
+                        <h4>Sample Insights:</h4>
+                        <ul>
+                            <li>💰 Q3 revenue: +28% vs Q2, exceeding projections</li>
+                            <li>🏆 Premium players drive 78% of total revenue</li>
+                            <li>🚀 Recommend: Focus premium acquisition in APAC markets</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Player Experience Optimizer</h3>
+                    </div>
+                    <div class="scenario-question">
+                        "How does player engagement correlate with long-term value?"
+                    </div>
+                    <div class="scenario-process">
+                        <h4>Agent Analysis Process:</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>🔍 Identifying key variables for correlation analysis</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>📏 Measuring baseline engagement and value metrics</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>📊 Calculating statistical relationships and correlations</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>🎯 Analyzing relationships across player segments</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>✅ Validating statistical significance</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>💡 Interpreting correlations for business insights</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-insights">
+                        <h4>Sample Insights:</h4>
+                        <ul>
+                            <li>📊 Engagement ↔ LTV correlation: 0.78 (strong positive)</li>
+                            <li>💡 Social features are strongest predictor of player value</li>
+                            <li>🚀 Recommend: Social onboarding flow for new players</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Market Expansion Strategist</h3>
+                    </div>
+                    <div class="scenario-question">
+                        "Which geographic markets should we prioritize for expansion?"
+                    </div>
+                    <div class="scenario-process">
+                        <h4>Agent Analysis Process:</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>🌍 Mapping current geographic distribution and performance</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>📊 Analyzing market penetration by region</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>🔍 Comparing revenue and engagement across markets</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>🎯 Identifying expansion opportunities and market gaps</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>✅ Validating market potential with supporting metrics</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>🚀 Prioritizing markets for expansion strategy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-insights">
+                        <h4>Sample Insights:</h4>
+                        <ul>
+                            <li>🎯 High-potential markets: Brazil, India, Southeast Asia</li>
+                            <li>💰 Market size estimates: $2.5M additional revenue potential</li>
+                            <li>🚀 Immediate expansion: Brazil and India within Q1</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Flow -->
+    <section class="demos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎮 Interactive Demo Experience</h2>
+                <p class="section-subtitle">Step-by-step walkthrough of the agentic AI interface</p>
+            </div>
+
+            <div class="demo-flow">
+                <div class="flow-step">
+                    <div class="flow-icon">
+                        <span class="step-number">1</span>
+                    </div>
+                    <div class="flow-content">
+                        <h3>Ask Complex Questions</h3>
+                        <p>Enter multi-faceted business questions that require investigation and analysis</p>
+                        <div class="flow-screenshot">
+                            <div class="mock-interface">
+                                <div class="interface-header">💬 Ask Your Question</div>
+                                <div class="interface-content">
+                                    <div class="question-input">"What's driving our revenue growth and what risks should we watch?"</div>
+                                    <button class="mock-btn">🧠 Start AI Agent Analysis</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">
+                        <span class="step-number">2</span>
+                    </div>
+                    <div class="flow-content">
+                        <h3>Watch Agent Planning</h3>
+                        <p>See the AI agent create a multi-step analysis plan tailored to your question</p>
+                        <div class="flow-screenshot">
+                            <div class="mock-interface">
+                                <div class="interface-header">🧠 Agent Planning Trace</div>
+                                <div class="planning-steps">
+                                    <div class="planning-step completed">✅ Analyzing revenue trends</div>
+                                    <div class="planning-step in-progress">🔄 Segmenting by demographics</div>
+                                    <div class="planning-step pending">⏳ Identifying risk factors</div>
+                                    <div class="planning-step pending">⏳ Strategic recommendations</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">
+                        <span class="step-number">3</span>
+                    </div>
+                    <div class="flow-content">
+                        <h3>Control Execution</h3>
+                        <p>Execute analysis steps manually or automatically while watching real-time progress</p>
+                        <div class="flow-screenshot">
+                            <div class="mock-interface">
+                                <div class="interface-header">🎮 Agent Execution Controls</div>
+                                <div class="interface-content">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 60%"></div>
+                                    </div>
+                                    <div class="control-buttons">
+                                        <button class="mock-btn primary">▶️ Execute Next Step</button>
+                                        <button class="mock-btn secondary">🚀 Auto-Execute All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">
+                        <span class="step-number">4</span>
+                    </div>
+                    <div class="flow-content">
+                        <h3>Explore Results</h3>
+                        <p>Get executive summaries, detailed findings, and transparent agent reasoning</p>
+                        <div class="flow-screenshot">
+                            <div class="mock-interface">
+                                <div class="interface-header">📊 AI Agent Analysis Results</div>
+                                <div class="results-tabs">
+                                    <div class="tab active">📋 Executive Summary</div>
+                                    <div class="tab">📊 Detailed Findings</div>
+                                    <div class="tab">🤖 Agent Reasoning</div>
+                                </div>
+                                <div class="results-content">
+                                    <div class="insight">💰 Revenue up 28% vs Q2, exceeding projections</div>
+                                    <div class="insight">🚀 Recommend: Premium acquisition in APAC</div>
+                                    <div class="insight">📈 Expected ROI: 340% with changes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section id="setup" class="setup">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🛠️ Launch the Agent</h2>
+                <p class="section-subtitle">Get the Agentic AI Business Intelligence demo running</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Prerequisites</h3>
+                        <ul style="margin-left: 2rem; color: #718096;">
+                            <li>Python 3.8+ with virtual environment</li>
+                            <li>Anthropic API key for Claude integration</li>
+                            <li>Docker Desktop (optional - for real database connection)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Install Dependencies</h3>
+                        <div class="code-block">
+                            <code>git clone https://github.com/asimkumarrout/mcp-nl-devrel.git
+cd mcp-nl-devrel
+pip install -r requirements.txt</code>
+                            <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/asimkumarrout/mcp-nl-devrel.git\ncd mcp-nl-devrel\npip install -r requirements.txt')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Launch Agentic AI Demo</h3>
+                        <div class="code-block">
+                            <code># Launch the enhanced agentic AI demo
+./run_agentic_demo.sh your_anthropic_api_key
+
+# Access at: http://localhost:8505</code>
+                            <button class="copy-btn" onclick="copyToClipboard('./run_agentic_demo.sh your_anthropic_api_key')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Start Analyzing</h3>
+                        <ul style="margin-left: 2rem; color: #718096;">
+                            <li>Connect to the demo database (instant setup)</li>
+                            <li>Choose from example questions or ask your own</li>
+                            <li>Watch the agent's reasoning process in the sidebar</li>
+                            <li>Execute steps manually or run automatically</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-note">
+                <div class="note-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="note-content">
+                    <h4>Demo Features</h4>
+                    <ul>
+                        <li><strong>Question Types:</strong> Revenue analysis, player engagement, market expansion, correlation studies</li>
+                        <li><strong>Planning Trace:</strong> Real-time visibility into agent decision-making</li>
+                        <li><strong>Step Control:</strong> Manual or automatic execution of analysis steps</li>
+                        <li><strong>Business Focus:</strong> Strategic insights and actionable recommendations</li>
+                        <li><strong>Confidence Scoring:</strong> Reliability indicators for each finding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🤖 Agentic AI Business Intelligence</h4>
+                    <p>Autonomous AI reasoning with transparent decision-making for strategic business intelligence and actionable insights.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/asimkumarrout/mcp-nl-devrel/blob/main/AGENTIC_AI_DEMO_README.md" target="_blank">Agent Guide</a></li>
+                        <li><a href="https://www.anthropic.com/claude" target="_blank">Claude AI</a></li>
+                        <li><a href="../index.html">All Demos</a></li>
+                        <li><a href="nl2sql.html">NL2SQL Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://github.com/asimkumarrout/mcp-nl-devrel" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/asimkumarrout" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/asimkumarrout" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Firebolt AI Demos. Built with ❤️ for demonstrating practical AI applications.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    
+    <style>
+    .agentic-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 3rem;
+        margin-top: 3rem;
+    }
+    
+    .agentic-feature {
+        background: white;
+        padding: 2.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        border: 2px solid var(--border-light);
+        transition: all 0.3s ease;
+    }
+    
+    .agentic-feature:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent-color);
+    }
+    
+    .feature-icon-large {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-accent);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        color: white;
+    }
+    
+    .agentic-feature h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-example {
+        background: var(--bg-light);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-top: 1.5rem;
+        border-left: 4px solid var(--accent-color);
+    }
+    
+    .feature-example strong {
+        color: var(--text-dark);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-example ol, .feature-example ul {
+        margin-left: 1.5rem;
+        color: var(--text-light);
+    }
+    
+    .scenario-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .scenario-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        border: 2px solid var(--border-light);
+        transition: all 0.3s ease;
+    }
+    
+    .scenario-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--secondary-color);
+    }
+    
+    .scenario-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .scenario-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--gradient-secondary);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+    }
+    
+    .scenario-question {
+        background: var(--gradient-accent);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        font-style: italic;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+    }
+    
+    .scenario-process h4,
+    .scenario-insights h4 {
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.1rem;
+    }
+    
+    .process-steps {
+        margin-bottom: 1.5rem;
+    }
+    
+    .process-step {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+    
+    .step-num {
+        width: 24px;
+        height: 24px;
+        background: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 600;
+        flex-shrink: 0;
+    }
+    
+    .scenario-insights ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .scenario-insights li {
+        padding: 0.25rem 0;
+        color: var(--text-dark);
+    }
+    
+    .demo-flow {
+        margin-top: 3rem;
+    }
+    
+    .flow-step {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        align-items: flex-start;
+    }
+    
+    .flow-step:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+    
+    .flow-icon {
+        flex-shrink: 0;
+    }
+    
+    .step-number {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .flow-content {
+        flex: 1;
+        max-width: 600px;
+    }
+    
+    .flow-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .flow-screenshot {
+        margin-top: 1.5rem;
+    }
+    
+    .mock-interface {
+        background: white;
+        border: 2px solid var(--border-light);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .interface-header {
+        background: var(--gradient-secondary);
+        color: white;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
+    }
+    
+    .interface-content {
+        padding: 1.5rem;
+    }
+    
+    .question-input {
+        background: var(--bg-light);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-style: italic;
+    }
+    
+    .mock-btn {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    
+    .mock-btn.primary {
+        background: var(--gradient-secondary);
+    }
+    
+    .mock-btn.secondary {
+        background: var(--gradient-accent);
+        margin-left: 0.5rem;
+    }
+    
+    .planning-steps {
+        padding: 1rem 0;
+    }
+    
+    .planning-step {
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    .planning-step.completed {
+        background: rgba(72, 187, 120, 0.1);
+        color: #2f855a;
+    }
+    
+    .planning-step.in-progress {
+        background: rgba(66, 153, 225, 0.1);
+        color: #2b6cb0;
+    }
+    
+    .planning-step.pending {
+        background: var(--bg-light);
+        color: var(--text-light);
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--bg-light);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+    
+    .progress {
+        height: 100%;
+        background: var(--gradient-secondary);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .control-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .results-tabs {
+        display: flex;
+        background: var(--bg-light);
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .tab {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-light);
+    }
+    
+    .tab.active {
+        background: white;
+        color: var(--text-dark);
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .results-content {
+        padding: 1.5rem;
+        background: white;
+    }
+    
+    .insight {
+        padding: 0.5rem 0;
+        color: var(--text-dark);
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .agentic-features {
+            grid-template-columns: 1fr;
+        }
+        
+        .scenario-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .flow-step {
+            flex-direction: column !important;
+            text-align: center;
+        }
+        
+        .flow-step:nth-child(even) {
+            flex-direction: column !important;
+        }
+        
+        .control-buttons {
+            flex-direction: column;
+        }
+    }
+    </style>
+</body>
+</html>
