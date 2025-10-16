@@ -210,6 +210,9 @@ class AgenticAIDemo:
         """Enhanced sidebar with agent planning trace"""
         
         with st.sidebar:
+            # Add agentic loop visualization
+            self.render_agentic_loop_diagram()
+            
             st.markdown("## 🧠 Agent Planning Trace")
             
             if st.session_state.current_analysis_plan:
@@ -648,6 +651,200 @@ class AgenticAIDemo:
         }
         return insights_map.get(step_type, [f"✅ {step_type.title()} analysis completed"])
 
+    def render_agentic_loop_diagram(self):
+        """Render the agentic loop visualization to show autonomous reasoning"""
+        
+        # Determine current stage of the agentic loop
+        current_stage = self.get_current_agentic_stage()
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                   padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; color: white;">
+            <h3 style="margin: 0 0 1rem 0; text-align: center; font-size: 1.1rem;">
+                🔄 Agentic AI Loop
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Visual loop stages
+        loop_stages = [
+            {"name": "🔍 OBSERVE", "desc": "Analyze question & context", "stage": "observe"},
+            {"name": "📋 PLAN", "desc": "Create analysis strategy", "stage": "plan"}, 
+            {"name": "⚡ ACT", "desc": "Execute analysis steps", "stage": "act"},
+            {"name": "💡 LEARN", "desc": "Generate insights", "stage": "learn"},
+            {"name": "🎯 REFLECT", "desc": "Synthesize findings", "stage": "reflect"},
+            {"name": "🔄 ADAPT", "desc": "Apply to next question", "stage": "adapt"}
+        ]
+        
+        for stage in loop_stages:
+            is_active = (stage["stage"] == current_stage)
+            is_completed = self.is_stage_completed(stage["stage"])
+            
+            # Determine status styling
+            if is_active:
+                bg_color = "rgba(240, 147, 251, 0.2)"
+                border_color = "#f093fb"
+                icon = "🔄"
+                status_text = "IN PROGRESS"
+            elif is_completed:
+                bg_color = "rgba(72, 187, 120, 0.1)"  
+                border_color = "#48bb78"
+                icon = "✅"
+                status_text = "COMPLETED"
+            else:
+                bg_color = "rgba(113, 128, 150, 0.1)"
+                border_color = "#718096" 
+                icon = "⏳"
+                status_text = "PENDING"
+            
+            st.markdown(f"""
+            <div style="background: {bg_color}; border-left: 4px solid {border_color}; 
+                       padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                    <span style="font-size: 1rem;">{icon}</span>
+                    <strong style="font-size: 0.9rem;">{stage['name']}</strong>
+                    <span style="font-size: 0.7rem; opacity: 0.8;">({status_text})</span>
+                </div>
+                <div style="font-size: 0.75rem; opacity: 0.8; margin-left: 1.5rem;">
+                    {stage['desc']}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    def get_current_agentic_stage(self) -> str:
+        """Determine which stage of the agentic loop we're currently in"""
+        
+        if not hasattr(st.session_state, 'current_analysis_plan') or not st.session_state.current_analysis_plan:
+            return "observe"  # No analysis started yet
+            
+        completed_steps = [s for s in st.session_state.current_analysis_plan if s.status == "completed"]
+        in_progress_steps = [s for s in st.session_state.current_analysis_plan if s.status == "in_progress"]
+        total_steps = len(st.session_state.current_analysis_plan)
+        
+        # Determine stage based on progress
+        if len(completed_steps) == 0 and len(in_progress_steps) == 0:
+            return "plan"  # Plan created but not started
+        elif len(in_progress_steps) > 0:
+            return "act"   # Currently executing steps
+        elif len(completed_steps) < total_steps:
+            return "learn" # Learning from completed steps
+        elif len(completed_steps) == total_steps:
+            return "reflect" # All steps done, synthesizing
+        else:
+            return "adapt" # Ready for next question
+    
+    def is_stage_completed(self, stage: str) -> bool:
+        """Check if a particular agentic loop stage has been completed"""
+        
+        if not hasattr(st.session_state, 'current_analysis_plan'):
+            return False
+            
+        completed_steps = [s for s in st.session_state.current_analysis_plan if s.status == "completed"]
+        total_steps = len(st.session_state.current_analysis_plan) if st.session_state.current_analysis_plan else 0
+        
+        stage_completion = {
+            "observe": True,  # Always completed if we have a plan
+            "plan": total_steps > 0,  # Completed if plan exists
+            "act": len(completed_steps) > 0,  # Some steps executed
+            "learn": len(completed_steps) > total_steps // 2,  # Most steps done
+            "reflect": len(completed_steps) == total_steps,  # All steps done
+            "adapt": False  # Only after starting new analysis
+        }
+        
+        return stage_completion.get(stage, False)
+
+    def render_agent_narration(self):
+        """Render agent's internal thought process for audience demonstrations"""
+        
+        current_stage = self.get_current_agentic_stage()
+        current_question = st.session_state.get('current_question', 'business question')
+        
+        # Agent internal monologue based on current stage
+        agent_thoughts = {
+            "observe": {
+                "thinking": f"🤔 **Agent Thinking**: \"I need to understand this business question: '{current_question[:60]}...' Let me analyze what type of investigation this requires.\"",
+                "action": "Parsing business context and determining analysis approach",
+                "why_agentic": "The agent autonomously categorizes the question type and selects appropriate reasoning strategies"
+            },
+            "plan": {
+                "thinking": "📋 **Agent Thinking**: \"This is a complex business question that requires multi-step analysis. Let me create a structured investigation plan with clear objectives for each step.\"",
+                "action": "Creating customized analysis workflow based on question type",
+                "why_agentic": "Unlike simple queries, the agent creates strategic investigation plans adapted to specific business contexts"
+            },
+            "act": {
+                "thinking": "⚡ **Agent Thinking**: \"Now I'm executing each analysis step systematically. Each step will inform the next, allowing me to build comprehensive insights.\"",
+                "action": "Autonomous execution of planned analysis steps",
+                "why_agentic": "The agent executes steps independently while maintaining context across the entire analysis workflow"
+            },
+            "learn": {
+                "thinking": "💡 **Agent Thinking**: \"I'm discovering interesting patterns in the data. Let me form hypotheses about what these findings mean for the business.\"",
+                "action": "Generating insights and forming business hypotheses",
+                "why_agentic": "Agent actively forms theories and hypotheses rather than just reporting data - true analytical reasoning"
+            },
+            "reflect": {
+                "thinking": "🎯 **Agent Thinking**: \"Now I need to synthesize all findings into coherent strategic recommendations with confidence assessments.\"",
+                "action": "Synthesizing findings into strategic business recommendations",
+                "why_agentic": "The agent synthesizes complex information into actionable business strategies, not just technical results"
+            },
+            "adapt": {
+                "thinking": "🔄 **Agent Thinking**: \"I've completed this analysis and learned from the process. I'm ready to apply these learnings to the next business question.\"",
+                "action": "Ready to adapt approach for new questions based on learnings",
+                "why_agentic": "Continuous learning and adaptation - each analysis improves the agent's future reasoning capabilities"
+            }
+        }
+        
+        current_thought = agent_thoughts.get(current_stage, agent_thoughts["observe"])
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                   padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white; 
+                   box-shadow: 0 8px 32px rgba(240, 147, 251, 0.3);">
+            <h3 style="margin: 0 0 1rem 0; text-align: center;">
+                🧠 Agent Internal Monologue
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Display agent's current thoughts
+        st.markdown(f"""
+        **{current_thought['thinking']}**
+        
+        🔧 **Current Action**: {current_thought['action']}
+        
+        🤖 **Why This Is Agentic**: {current_thought['why_agentic']}
+        """)
+        
+        # Add agentic behavior indicators
+        with st.expander("🎯 Understanding Agentic Behavior", expanded=False):
+            st.markdown("""
+            ### What Makes This AI "Agentic"?
+            
+            **🔍 Autonomous Decision-Making:**
+            - Agent independently chooses analysis approach
+            - Adapts strategy based on question complexity
+            - Makes decisions without constant human guidance
+            
+            **🧩 Multi-Step Reasoning:**
+            - Breaks complex problems into logical steps
+            - Each step builds on previous findings
+            - Strategic thinking, not just data retrieval
+            
+            **🎯 Goal-Oriented Behavior:**
+            - Works toward business objectives
+            - Forms and tests hypotheses
+            - Provides actionable recommendations
+            
+            **🔄 Learning & Adaptation:**
+            - Learns from analysis results
+            - Improves approach over time
+            - Applies insights to future questions
+            
+            **👀 Transparent Reasoning:**
+            - Shows decision-making process
+            - Explains confidence levels
+            - Reveals thought progression
+            """)
+
     def format_schema_for_claude(self):
         """Format schema context (simplified version)"""
         return """
@@ -692,6 +889,7 @@ class AgenticAIDemo:
             
             # Show step execution controls if analysis plan exists
             if st.session_state.show_execution_controls and st.session_state.current_analysis_plan:
+                self.render_agent_narration()
                 self.render_step_execution_controls()
             
             # Show final insights if analysis is complete
